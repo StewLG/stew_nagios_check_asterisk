@@ -17,6 +17,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
+# Version 1.0 - Initial release
+
 import argparse
 import json
 import sys
@@ -93,8 +95,6 @@ class AsteriskChecker(object):
             self.CheckSipPeer();
         elif checkType == 'sipregistry':
             self.CheckSipRegistry()
-        elif checkType == 'loopback':
-            self.CheckLoopback()
         else:
             print ("Unknown Check type: " + checkType)
             sys.exit(3)
@@ -238,33 +238,6 @@ class AsteriskChecker(object):
             self._critical_messages.append(registryMessage)
 
 
-    ### Loopback
-    ############
-    
-    def CheckLoopback(self):
-        logging.debug(f"CheckLoopback");
-        
-        self.InitiateLoopbackCall('SIP/2125551212voipms', '2125551212', '111222333')
-
-        # List of RegistryEntry we will build up during event callbacks
-        #self._sipRegistryEntryList = [];
-
-        # This is how we receive results from this command, via events
-        # coming to us in callbacks
-        #self._asteriskManager.register_event('RegistryEntry', self.HandleRegistryEntryEvent)
-        #self._asteriskManager.register_event('RegistrationsComplete', self.HandleRegistrationsComplete)
-
-        #sipRegistryResult = self._asteriskManager.sipshowregistry()
-        # Check for "Success"?    
-    
-        #             def InitiateLoopbackCall(self, channelName, numberToCall, outgoingCID):
-    
-    def InitiateLoopbackCall(self, channelName, numberToCall, outgoingCID):
-       logging.debug(f"InitiateLoopbackCall on Channel Name: {channelName} Outgoing CID: {outgoingCID}")
-       originateResponse = self._asteriskManager.originate(channelName, numberToCall, '', '', '', '', '', outgoingCID)
-       print(f'originateResponse: {originateResponse}')
-
-
     ### More Connection Stuff
     ##########################
 
@@ -343,7 +316,7 @@ def SetupParser():
     parser.add_argument('-pt', '--port', nargs='?', const=DEFAULT_AMI_PORT, type=int, default=DEFAULT_AMI_PORT, help=f'AMI port. Defaults to {DEFAULT_AMI_PORT}')
     parser.add_argument('-u', '--user', required=True, type=str, help='Any valid user for Asterisk Manager')
     parser.add_argument('-p', '--passwd', required=True, type=str, help='Password')
-    parser.add_argument('-ct', '--checktype', required=True, type=str, help='Type of check: siphost, sipregistry, loopback')
+    parser.add_argument('-ct', '--checktype', required=True, type=str, help='Type of check: siphost, sipregistry')
     parser.add_argument('-sh', '--siphost', required=False, type=str, help='name of specific SIP host to check')
     parser.add_argument('-tm', '--timeout', nargs='?', const=DEFAULT_TIMEOUT_IN_SECONDS, type=int, default=DEFAULT_TIMEOUT_IN_SECONDS, help=f'Timeout in number of seconds. Defaults to {DEFAULT_TIMEOUT_IN_SECONDS}.')
     parser.add_argument('-d', '--debug', required=False, action='store_true', help='Display debugging information; run script this way and record result when asking for help.')
