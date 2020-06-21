@@ -13,3 +13,14 @@ $ ./StewCheckAsterisk.py -H ani.doodle.local -u nagios_ami -p password_goes_here
 OK - Registered Host: toronto.yourvoipprovider.com State: Registered
 ```
 
+SIP Registration check, particular peer, found:
+```
+$ ./StewCheckAsterisk.py -H ani.doodle.local -u nagios_ami -p password_goes_here -ct sipregistry -sh detroit.yourvoipprovider.com
+OK - Registered Host: detroit.yourvoipprovider.com State: Registered
+```
+
+SIP Registration check, particular peer, not found:
+```
+$ ./StewCheckAsterisk.py -H ani.doodle.local -u nagios_ami -p password_goes_here -ct sipregistry -sh tulsa.yourvoipprovider.com
+CRITICAL - Could not find SIP Registration for hostname tulsa.yourvoipprovider.com. All hostnames found:  detroit.yourvoipprovider.com
+```
