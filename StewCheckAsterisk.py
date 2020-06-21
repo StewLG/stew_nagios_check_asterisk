@@ -27,6 +27,7 @@ import urllib3
 import requests
 import logging
 # This is from the Pyst2 library (see https://pyst2.readthedocs.io/en/latest/manager.html#example)
+# try "python3 -m pip install pyst2" to install it.
 import asterisk.manager
 import time
 import threading
